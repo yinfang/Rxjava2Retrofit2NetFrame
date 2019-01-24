@@ -183,6 +183,7 @@ public class HttpMethods {
     public <T> void toSubscribe(Observable<T> o, DisposableObserver<T> s) {
 
         o.subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(RETRY_COUNT)//请求失败重连次数

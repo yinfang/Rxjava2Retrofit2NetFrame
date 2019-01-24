@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 
+import com.zhenggzh.dream.retrofitandrxjavademo.app.BaseConstant;
 import com.zhenggzh.dream.retrofitandrxjavademo.utils.CompressUtils;
 
 import io.reactivex.observers.DisposableObserver;
@@ -120,10 +121,10 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
                 mOnSuccessAndFaultListener.onFault("安全证书异常");
             } else if (e instanceof HttpException) {//请求的地址不存在
                 int code = ((HttpException) e).code();
-                if (code == 504) {
+                if (code == BaseConstant.NET_ERROR) {
                     //                    ToastManager.showShortToast("网络异常，请检查您的网络状态");
                     mOnSuccessAndFaultListener.onFault("网络异常，请检查您的网络状态");
-                } else if (code == 404) {
+                } else if (code == BaseConstant.URL_NO_EXIST) {
                     //                    ToastManager.showShortToast("请求的地址不存在");
                     mOnSuccessAndFaultListener.onFault("请求的地址不存在");
                 } else {
@@ -164,7 +165,7 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
             Log.e("body", result);
             JSONObject jsonObject = new JSONObject(result);
             int resultCode = jsonObject.getInt("ErrorCode");
-            if (resultCode == 1) {
+            if (resultCode == BaseConstant.RESULT_SUCCESS) {
                 mOnSuccessAndFaultListener.onSuccess(result);
             } else {
                 String errorMsg = jsonObject.getString("ErrorMessage");
